@@ -6,6 +6,8 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
 
 require('firebase/firestore');
 
@@ -13,38 +15,31 @@ Vue.config.productionTip = false
 
 Vue.use(VueFirestore)
 
-// @ts-ignore
-console.log('new stuff right before here...dsds');
+Vue.use(Vuetify)
 
 let displayedMessage = false;
+let vuetify = new Vuetify({})
 
-//@ts-ignore
-console.log('something is happening')
-
-console.log('finally done!!!');
 // @ts-ignore
 const firestore = top.window.firebase.firestore();
-console.log(firestore);
-
 // @ts-ignore
-console.log('got past here!!!')
+const firebase = top.window.firebase;
+// console.log(firestore);
+console.log("What the hell. Don't look in here you freak. Mind your business.")
+
 new Vue({
   router,
   store,
   render: h => h(App),
+  vuetify,
   // @ts-ignore
   firestore () {
-    console.log("we got in here????")
     return {
       ballots: {
         objects: true,
         resolve: (data: any) => {
-            // collection is resolved
-            console.log('got the data', data);
         },
         reject: (err: any) => {
-            // collection is rejected
-            console.log('got an error', err);
         },
         ref: firestore.collection('Wed Jun 10 2020')
       }
@@ -52,4 +47,4 @@ new Vue({
   }
 }).$mount('#app')
 
-export { firestore }
+export { firestore, firebase }
