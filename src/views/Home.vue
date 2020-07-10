@@ -199,9 +199,6 @@ export default {
     this.generateNewFingerprint(nunce);
   },
   methods: {
-    currentBallotClicked() {
-      console.log('currentBallot was clicked!')
-    },
     async enableStandby() {
       this.showAlertDialog = true;
       this.dialog = false;
