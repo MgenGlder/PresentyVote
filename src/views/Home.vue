@@ -35,11 +35,11 @@
         </v-card-actions>
       </v-card>
       <v-dialog
-      v-model="fingerprintDialog"
-      hide-overlay
-      persistent
-      width="300"
-    >
+        v-model="fingerprintDialog"
+        hide-overlay
+        persistent
+        width="300"
+      >
       <v-card
         color="primary"
         dark
@@ -70,7 +70,7 @@
         >
           Please re-vote.
         </v-alert>
-        <div class="pause-loader-wrapper">
+        <div class="pause-loader-wrapper" :class="{ 'loading-cursor':  displayLoading}">
           <v-progress-circular
             indeterminate
             color="primary" 
@@ -78,8 +78,17 @@
             class="progress-circular">
           </v-progress-circular>
         <div class="pills-wrapper">
-          <v-chip class="current-ballot" :outlined='true' value="something" :color='chosenColor' v-if="!displayLoading || initialLoadFinished">{{currentBallot.name}}</v-chip>
-          <!-- <v-chip class="selection-pill" :pill="true" :outlined="true" color="#033">{{currentSelection}}</v-chip> -->
+          <v-tooltip v-model="show" top v-if="currentBallot.description !== undefined && currentBallot.description !== null && currentBallot.description !== ''">
+            <template v-slot:activator="{ on, attrs }">
+              <div v-bind="attrs"  @click="show = !show">
+                <v-chip class="current-ballot-with-icon" :outlined='true' value="something" :color='chosenColor' v-if="!displayLoading || initialLoadFinished">{{currentBallot.name}} <v-icon>mdi-information</v-icon></v-chip>
+              </div>
+            </template>
+            <span>{{currentBallot.description}}</span>
+          </v-tooltip>
+          <div v-else>
+            <v-chip class="current-ballot" :outlined='true' value="something" :color='chosenColor' v-if="!displayLoading || initialLoadFinished">{{currentBallot.name}}</v-chip>
+          </div>
         </div>
         <div class="button-wrapper">
           <v-btn x-large color="success" @click="vote('strong')" class="button__green" :disabled="displayLoading">Strong</v-btn>
@@ -132,7 +141,8 @@ export default {
       currentSelection: null,
       initialSnapshot: true,
       voteSubscription: null,
-      showAlertDialog: false
+      showAlertDialog: false,
+      show: false
     }
   },
   firestore: function () {
@@ -167,7 +177,7 @@ export default {
       console.log("currentBallot", newVal, oldVal);
       if ((oldVal === undefined || oldVal === null || oldVal.length === 0) && this.fingerprint != null){
         console.log("First branching logic")
-        this.displayLoading = false;  
+        this.displayLoading = false;
         this.initialLoadFinished = true;
       } else if (this.fingerprint == null) {
         alert('Fingerprinting failure.')
@@ -189,6 +199,9 @@ export default {
     this.generateNewFingerprint(nunce);
   },
   methods: {
+    currentBallotClicked() {
+      console.log('currentBallot was clicked!')
+    },
     async enableStandby() {
       this.showAlertDialog = true;
       this.dialog = false;
@@ -257,6 +270,19 @@ export default {
   /* Potential Countdown CSS Ticker Code  */
   /* https://codepen.io/marcosmou/pen/VjrwAR */
   @import '~material-design-icons/iconfont/material-icons.css';
+  .loading-cursor {
+    cursor: progress;
+  }
+  .current-ballot-with-icon .v-icon {
+    position: absolute !important;
+    top: 3px;
+    right: 5px;
+    font-size: 13px !important;
+  }
+  .current-ballot-with-icon {
+    padding-right: 18px !important;
+    cursor: pointer !important;
+  }
   .finished {
     display: flex;
     height: 100vh;
