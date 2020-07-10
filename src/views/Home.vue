@@ -78,9 +78,9 @@
             class="progress-circular">
           </v-progress-circular>
         <div class="pills-wrapper">
-          <v-tooltip v-model="show" top v-if="currentBallot.description !== undefined && currentBallot.description !== null && currentBallot.description !== ''">
+          <v-tooltip v-model="showTooltip" top v-if="currentBallot.description !== undefined && currentBallot.description !== null && currentBallot.description !== ''">
             <template v-slot:activator="{ on, attrs }">
-              <div v-bind="attrs"  @click="show = !show">
+              <div v-bind="attrs"  @click="showTooltip = !showTooltip">
                 <v-chip class="current-ballot-with-icon" :outlined='true' value="something" :color='chosenColor' v-if="!displayLoading || initialLoadFinished">{{currentBallot.name}} <v-icon>mdi-information</v-icon></v-chip>
               </div>
             </template>
@@ -142,7 +142,7 @@ export default {
       initialSnapshot: true,
       voteSubscription: null,
       showAlertDialog: false,
-      show: false
+      showTooltip: false
     }
   },
   firestore: function () {
