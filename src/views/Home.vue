@@ -77,27 +77,30 @@
             v-if="displayLoading"
             class="progress-circular">
           </v-progress-circular>
+          <v-icon v-if="paused" class="pause-icon">mdi-pause</v-icon>
         <div class="pills-wrapper">
           <v-tooltip v-model="showTooltip" top v-if="currentBallot.description !== undefined && currentBallot.description !== null && currentBallot.description !== ''">
             <template v-slot:activator="{ on, attrs }">
               <div v-bind="attrs"  @click="showTooltip = !showTooltip">
-                <v-chip class="current-ballot-with-icon" :outlined='true' value="something" :color='chosenColor' v-if="!displayLoading || initialLoadFinished">{{currentBallot.name}} <v-icon>mdi-information</v-icon></v-chip>
+                <v-chip class="current-ballot-with-icon" :outlined='true' :color='chosenColor' v-if="(!displayLoading || initialLoadFinished) && !paused">{{currentBallot.name}}<v-icon>mdi-information</v-icon></v-chip>
+                <v-chip class="current-ballot-with-icon" :outlined='true' :color='chosenColor' v-if="paused && previousBallot != null">{{previousBallot.name}}<v-icon>mdi-information</v-icon></v-chip>
               </div>
             </template>
             <span>{{currentBallot.description}}</span>
           </v-tooltip>
           <div v-else>
-            <v-chip class="current-ballot" :outlined='true' value="something" :color='chosenColor' v-if="!displayLoading || initialLoadFinished">{{currentBallot.name}}</v-chip>
+            <v-chip class="current-ballot" :outlined='true' :color='chosenColor' v-if="paused && previousBallot != null">{{previousBallot.name}}</v-chip>
+            <v-chip class="current-ballot" :outlined='true' :color='chosenColor' v-if="(!displayLoading || initialLoadFinished) && !paused">{{currentBallot.name}}</v-chip>
           </div>
         </div>
         <div class="button-wrapper">
-          <v-btn x-large color="success" @click="vote('strong')" class="button__green" :disabled="displayLoading">Strong</v-btn>
+          <v-btn x-large color="success" @click="vote('strong')" class="button__green" :disabled="displayLoading || paused">Strong</v-btn>
         </div>
         <div class="button-wrapper">
-          <v-btn x-large color="warning" @click="vote('normal')" class="button__yellow" :disabled="displayLoading">Normal</v-btn>
+          <v-btn x-large color="warning" @click="vote('normal')" class="button__yellow" :disabled="displayLoading || paused">Normal</v-btn>
         </div>
         <div class="button-wrapper">
-          <v-btn x-large color="error" @click="vote('weak')" class="button__red" :disabled="displayLoading">Weak</v-btn>
+          <v-btn x-large color="error" @click="vote('weak')" class="button__red" :disabled="displayLoading || paused">Weak</v-btn>
         </div>
       </div>
       </div>
@@ -142,7 +145,9 @@ export default {
       initialSnapshot: true,
       voteSubscription: null,
       showAlertDialog: false,
-      showTooltip: false
+      showTooltip: false,
+      paused: false,
+      previousBallot: null
     }
   },
   firestore: function () {
@@ -183,6 +188,25 @@ export default {
         alert('Fingerprinting failure.')
       } else if (newVal.name === '') {
         console.log('new val == empty string')
+      } else if (newVal.name === 'pause') {
+        this.paused = true;
+        this.previousBallot = oldVal;
+        console.log('setting previous ballot to.. ', oldVal)
+      } else {
+        this.paused = false;
+      }
+
+      // Using hasOwnProperty on a specific object is dangerous, because you can never be sure of prototype w/ js
+      // Ref: https://eslint.org/docs/rules/no-prototype-builtins
+
+      if(oldVal !== undefined && oldVal !== null && Object.prototype.hasOwnProperty.call(oldVal, 'name')) {
+        if (newVal !== undefined && newVal !== null && Object.prototype.hasOwnProperty.call(newVal, 'name')) {
+          if (newVal.name !== oldVal.name) {
+            // Reset current selection color if a new ballot has been received
+            // So the color selection from previous vote doesn't stick around when it shouldn't.
+            this.currentSelection = null;
+          }
+        }
       }
       
       if (newVal.name === 'end') {
@@ -270,6 +294,14 @@ export default {
   .loading-cursor {
     cursor: progress;
   }
+  .pause-icon.v-icon {
+    position: absolute !important;
+    top: 50% !important;
+    z-index: 9999 !important;
+    font-size: 195px !important;
+    text-align: center;
+    line-height: 0 !important;
+  }
   .current-ballot-with-icon .v-icon {
     position: absolute !important;
     top: 3px;
@@ -289,6 +321,12 @@ export default {
   }
   .pause-loader-wrapper {
     /* margin-top: -32px; */
+    display: flex;
+    /* align-items: center; */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
     position: relative;
   }
   .progress-circular {
