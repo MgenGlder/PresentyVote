@@ -57,70 +57,84 @@
     </v-dialog>
 
     <transition name="poll-wrapper">
-        <div class="poll-wrapper" v-if="topics.length !== 0 && currentBallot.name !== 'transition' && currentBallot.name !== 'end'">
-        <v-alert
-          style="position: absolute; top: 20px;"
-          :value="showAlertDialog"
-          dismissible
-          close-icon="mdi-delete"
-          transition="scale-transition"
-          dense
-          outlined
-          type="error"
-        >
-          Please re-vote.
-        </v-alert>
-        <div class="pause-loader-wrapper" :class="{ 'loading-cursor':  displayLoading}">
-          <v-progress-circular
-            indeterminate
-            color="primary" 
-            v-if="displayLoading"
-            class="progress-circular">
-          </v-progress-circular>
-          <v-icon v-if="paused" class="pause-icon">mdi-pause</v-icon>
-        <div class="pills-wrapper">
-          <v-tooltip v-model="showTooltip" top v-if="currentBallot.description !== undefined && currentBallot.description !== null && currentBallot.description !== ''">
-            <template v-slot:activator="{ on, attrs }">
-              <div v-bind="attrs"  @click="showTooltip = !showTooltip">
-                <v-chip class="current-ballot-with-icon" :outlined='true' :color='chosenColor' v-if="(!displayLoading || initialLoadFinished) && !paused">{{currentBallot.name}}<v-icon>mdi-information</v-icon></v-chip>
-                <v-chip class="current-ballot-with-icon" :outlined='true' :color='chosenColor' v-if="paused && previousBallot != null">{{previousBallot.name}}<v-icon>mdi-information</v-icon></v-chip>
-              </div>
-            </template>
-            <span>{{currentBallot.description}}</span>
-          </v-tooltip>
-          <div v-else>
-            <v-chip class="current-ballot" :outlined='true' :color='chosenColor' v-if="paused && previousBallot != null">{{previousBallot.name}}</v-chip>
-            <v-chip class="current-ballot" :outlined='true' :color='chosenColor' v-if="(!displayLoading || initialLoadFinished) && !paused">{{currentBallot.name}}</v-chip>
+        <template v-if="currentBallot.name !== 'start'">
+          <div class="poll-wrapper" v-if="topics.length !== 0 && currentBallot.name !== 'transition' && currentBallot.name !== 'end'">
+          <v-alert
+            style="position: absolute; top: 20px;"
+            :value="showAlertDialog"
+            dismissible
+            close-icon="mdi-delete"
+            transition="scale-transition"
+            dense
+            outlined
+            type="error"
+          >
+            Please re-vote.
+          </v-alert>
+          <div class="pause-loader-wrapper" :class="{ 'loading-cursor':  displayLoading}">
+            <v-progress-circular
+              indeterminate
+              color="primary" 
+              v-if="displayLoading"
+              class="progress-circular">
+            </v-progress-circular>
+            <v-icon v-if="paused" class="pause-icon">mdi-pause</v-icon>
+          <div class="pills-wrapper">
+            <v-tooltip v-model="showTooltip" top v-if="currentBallot.description !== undefined && currentBallot.description !== null && currentBallot.description !== ''">
+              <template v-slot:activator="{ on, attrs }">
+                <div v-bind="attrs"  @click="showTooltip = !showTooltip">
+                  <v-chip class="current-ballot-with-icon" :outlined='true' :color='chosenColor' v-if="(!displayLoading || initialLoadFinished) && !paused">{{currentBallot.name}}<v-icon>mdi-information</v-icon></v-chip>
+                  <v-chip class="current-ballot-with-icon" :outlined='true' :color='chosenColor' v-if="paused && previousBallot != null">{{previousBallot.name}}<v-icon>mdi-information</v-icon></v-chip>
+                </div>
+              </template>
+              <span>{{currentBallot.description}}</span>
+            </v-tooltip>
+            <div v-else>
+              <v-chip class="current-ballot" :outlined='true' :color='chosenColor' v-if="paused && previousBallot != null">{{previousBallot.name}}</v-chip>
+              <v-chip class="current-ballot" :outlined='true' :color='chosenColor' v-if="(!displayLoading || initialLoadFinished) && !paused">{{currentBallot.name}}</v-chip>
+            </div>
+          </div>
+          <div class="button-wrapper">
+            <v-btn x-large color="success" @click="vote('strong')" class="button__green" :disabled="displayLoading || paused">Strong</v-btn>
+          </div>
+          <div class="button-wrapper">
+            <v-btn x-large color="warning" @click="vote('normal')" class="button__yellow" :disabled="displayLoading || paused">Normal</v-btn>
+          </div>
+          <div class="button-wrapper">
+            <v-btn x-large color="error" @click="vote('weak')" class="button__red" :disabled="displayLoading || paused">Weak</v-btn>
           </div>
         </div>
-        <div class="button-wrapper">
-          <v-btn x-large color="success" @click="vote('strong')" class="button__green" :disabled="displayLoading || paused">Strong</v-btn>
         </div>
-        <div class="button-wrapper">
-          <v-btn x-large color="warning" @click="vote('normal')" class="button__yellow" :disabled="displayLoading || paused">Normal</v-btn>
+        <span class="finished" v-if="currentBallot.name === 'end'">
+          <v-chip
+            class="ma-2"
+            color="teal"
+            text-color="white"
+          >
+            <v-avatar left>
+              <v-icon>mdi-checkbox-marked-circle</v-icon>
+            </v-avatar>
+            Voting Finished!
+          </v-chip>
+        </span>
+        <div class="skeleton-loader" v-if="currentBallot.name === 'transition'">
+            <div class="wait-text-skeleton">Please wait for the next question...</div>
+            <v-skeleton-loader class="mx-auto" type="button, button, button" max-width="300">
+            </v-skeleton-loader>
         </div>
-        <div class="button-wrapper">
-          <v-btn x-large color="error" @click="vote('weak')" class="button__red" :disabled="displayLoading || paused">Weak</v-btn>
+      </template>
+      <template v-else>
+        <div class="waiting-starter">
+          <p>You and {#somenumber} others are waiting for the presenter to start...</p>
+          <div>
+            <v-progress-circular
+              indeterminate
+              color="primary">
+            </v-progress-circular>
+          </div>
         </div>
-      </div>
-      </div>
-      <span class="finished" v-if="currentBallot.name === 'end'">
-        <v-chip
-          class="ma-2"
-          color="teal"
-          text-color="white"
-        >
-          <v-avatar left>
-            <v-icon>mdi-checkbox-marked-circle</v-icon>
-          </v-avatar>
-          Voting Finished!
-        </v-chip>
-      </span>
-      <div class="skeleton-loader" v-if="currentBallot.name === 'transition'">
-          <div class="wait-text-skeleton">Please wait for the next question...</div>
-          <v-skeleton-loader class="mx-auto" type="button, button, button" max-width="300">
-          </v-skeleton-loader>
-      </div>
+        
+      </template>
     </transition>
     </template>
   </div>
@@ -192,6 +206,23 @@ export default {
         this.paused = true;
         this.previousBallot = oldVal;
         console.log('setting previous ballot to.. ', oldVal)
+      } else if (newVal.name === 'start') {
+        firestore.collection(this.date).doc('setup').collection('participants').doc(this.fingerprint).set({id: this.fingerprint})
+        // firestore.collection(this.date)
+        //               .doc('setup')
+        //               .collection('participants')
+        //               .doc(this.fingerprint)
+        //                 .onSnapshot(user => {
+        //                 if (this.initialSnapshot) {
+        //                   this.initialSnapshot = false;
+        //                 } else if (vote.data().type !== this.currentSelection && !this.initialSnapshot) {
+        //                   this.dialog = true
+        //                 }
+        //               })
+        firestore.collection(this.date).doc('setup').collection('participants').get().then(snap => {
+          console.log(snap.size)
+        })
+        firestore.collection(this.date).doc('setup').collection('participants').subscribe( values => console.log('subscribe', values.length));
       } else {
         this.paused = false;
       }
@@ -291,6 +322,14 @@ export default {
   /* Potential Countdown CSS Ticker Code  */
   /* https://codepen.io/marcosmou/pen/VjrwAR */
   @import '~material-design-icons/iconfont/material-icons.css';
+  .home {
+    height: 100vh;
+  }
+  .waiting-starter {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
   .loading-cursor {
     cursor: progress;
   }
