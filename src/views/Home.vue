@@ -229,7 +229,6 @@ export default {
       }
     });
     this.$watch('currentBallot', function (newVal, oldVal){
-      // if (newVal.name == 'start') {
         const snapshot = firestore.collection(this.date).doc('setup').collection('participants').get()
         snapshot.then((shots) => {
           this.totalParticipants = shots.docs.reduce((accumulator) => {
@@ -245,7 +244,6 @@ export default {
                   return accumulator += 1;
                 }, 0);
               })
-      // }
     }, {immediate: true});
     this.$watch('topics', function(newVal, oldVal) {
       console.log('newVal - topic', newVal)
