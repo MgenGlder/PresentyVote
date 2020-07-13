@@ -125,7 +125,7 @@
       </template>
       <template v-else>
         <div class="waiting-starter">
-          <p>You and {#somenumber} others are waiting for the presenter to start...</p>
+          <p>You and {{totalParticipants - 1}} others are waiting for the presenter to start...</p>
           <div>
             <v-progress-circular
               indeterminate
@@ -161,7 +161,8 @@ export default {
       showAlertDialog: false,
       showTooltip: false,
       paused: false,
-      previousBallot: null
+      previousBallot: null,
+      totalParticipants: 0
     }
   },
   firestore: function () {
@@ -206,23 +207,6 @@ export default {
         this.paused = true;
         this.previousBallot = oldVal;
         console.log('setting previous ballot to.. ', oldVal)
-      } else if (newVal.name === 'start') {
-        firestore.collection(this.date).doc('setup').collection('participants').doc(this.fingerprint).set({id: this.fingerprint})
-        // firestore.collection(this.date)
-        //               .doc('setup')
-        //               .collection('participants')
-        //               .doc(this.fingerprint)
-        //                 .onSnapshot(user => {
-        //                 if (this.initialSnapshot) {
-        //                   this.initialSnapshot = false;
-        //                 } else if (vote.data().type !== this.currentSelection && !this.initialSnapshot) {
-        //                   this.dialog = true
-        //                 }
-        //               })
-        firestore.collection(this.date).doc('setup').collection('participants').get().then(snap => {
-          console.log(snap.size)
-        })
-        firestore.collection(this.date).doc('setup').collection('participants').subscribe( values => console.log('subscribe', values.length));
       } else {
         this.paused = false;
       }
@@ -244,6 +228,25 @@ export default {
         console.error('Voting is ending');
       }
     });
+    this.$watch('currentBallot', function (newVal, oldVal){
+      // if (newVal.name == 'start') {
+        const snapshot = firestore.collection(this.date).doc('setup').collection('participants').get()
+        snapshot.then((shots) => {
+          this.totalParticipants = shots.docs.reduce((accumulator) => {
+            return accumulator += 1;
+          }, 0);
+        });
+
+        let subscription = firestore.collection(this.date)
+              .doc('setup')
+              .collection('participants')
+              .onSnapshot((snapshot) => {
+                this.totalParticipants = snapshot.docs.reduce((accumulator) => {
+                  return accumulator += 1;
+                }, 0);
+              })
+      // }
+    }, {immediate: true});
     this.$watch('topics', function(newVal, oldVal) {
       console.log('newVal - topic', newVal)
       console.log('oldVal - topic', oldVal)
