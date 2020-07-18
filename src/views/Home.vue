@@ -193,20 +193,19 @@ export default {
     }
   },
   mounted () {
+    const sse = new EventSource('http://localhost:3000/events')
+    sse.onmessage = function(event) {
+      console.log("New message", event.data);
+    }
     this.$watch('currentBallot', function (newVal, oldVal) {
-      console.log("currentBallot", newVal, oldVal);
       if ((oldVal === undefined || oldVal === null || oldVal.length === 0) && this.fingerprint != null){
-        console.log("First branching logic")
         this.displayLoading = false;
         this.initialLoadFinished = true;
       } else if (this.fingerprint == null) {
-        alert('Fingerprinting failure.')
       } else if (newVal.name === '') {
-        console.log('new val == empty string')
       } else if (newVal.name === 'pause') {
         this.paused = true;
         this.previousBallot = oldVal;
-        console.log('setting previous ballot to.. ', oldVal)
       } else {
         this.paused = false;
       }
@@ -236,7 +235,7 @@ export default {
           }, 0);
         });
 
-        let subscription = firestore.collection(this.date)
+        const subscription = firestore.collection(this.date)
               .doc('setup')
               .collection('participants')
               .onSnapshot((snapshot) => {
@@ -245,13 +244,7 @@ export default {
                 }, 0);
               })
     }, {immediate: true});
-    this.$watch('topics', function(newVal, oldVal) {
-      console.log('newVal - topic', newVal)
-      console.log('oldVal - topic', oldVal)
-    });
-    console.log(this.topics)
     const nunce = this.getOrCreateNunce();
-    // console.log('Nunce that we just got!', nunce);
     this.generateNewFingerprint(nunce);
   },
   methods: {
@@ -268,7 +261,6 @@ export default {
     },
     getOrCreateNunce() {
       const nonce = window.localStorage.getItem("nonce")
-      // console.log('nonce', nonce, typeof nonce);
       if (nonce === undefined || nonce == null || isNaN(parseFloat(nonce))) {
         // Warning: This clears all of local storage. May have unintended consequences.
         // window.localStorage.clear();

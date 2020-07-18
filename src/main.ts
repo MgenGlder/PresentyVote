@@ -24,7 +24,6 @@ let vuetify = new Vuetify({})
 const firestore = top.window.firebase.firestore();
 // @ts-ignore
 const firebase = top.window.firebase;
-// console.log(firestore);
 console.log("What the hell. Don't look in here you freak. Mind your business.")
 
 new Vue({
