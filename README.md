@@ -20,6 +20,11 @@ Use dev so that you can use the vue dev utils locally
 firebase serve --port=9000   
 ```
 
+## Deploy app to firebase website
+```
+firebase deploy
+```
+
 ## Project setup
 ```
 npm install

@@ -193,7 +193,7 @@ export default {
     }
   },
   mounted () {
-    const sse = new EventSource('http://localhost:3000/events')
+    const sse = new EventSource('https://presenty-vote-api.herokuapp.com/events')
     sse.onmessage = function(event) {
       console.log("New message", event.data);
     }
@@ -201,8 +201,6 @@ export default {
       if ((oldVal === undefined || oldVal === null || oldVal.length === 0) && this.fingerprint != null){
         this.displayLoading = false;
         this.initialLoadFinished = true;
-      } else if (this.fingerprint == null) {
-      } else if (newVal.name === '') {
       } else if (newVal.name === 'pause') {
         this.paused = true;
         this.previousBallot = oldVal;
@@ -227,7 +225,7 @@ export default {
         console.error('Voting is ending');
       }
     });
-    this.$watch('currentBallot', function (newVal, oldVal){
+    this.$watch('currentBallot', function (){
         const snapshot = firestore.collection(this.date).doc('setup').collection('participants').get()
         snapshot.then((shots) => {
           this.totalParticipants = shots.docs.reduce((accumulator) => {
@@ -262,10 +260,6 @@ export default {
     getOrCreateNunce() {
       const nonce = window.localStorage.getItem("nonce")
       if (nonce === undefined || nonce == null || isNaN(parseFloat(nonce))) {
-        // Warning: This clears all of local storage. May have unintended consequences.
-        // window.localStorage.clear();
-        // alert('There was an error parsing your nonce');
-        // throw new Error("Can't parse nonce");
         const newNonce = Math.random() * 100;
         window.localStorage.setItem('nonce', newNonce)
         return newNonce;
