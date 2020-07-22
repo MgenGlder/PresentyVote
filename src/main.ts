@@ -9,6 +9,8 @@ import store from './store'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
+// TODO: Remove this firebase require?? The script link in the index.html should handle making
+// firebase a global instance
 require('firebase/firestore');
 
 Vue.config.productionTip = false
