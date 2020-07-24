@@ -11,15 +11,14 @@ export default {
   name: "Data",
   data() {
     return {
-      analyticsData: [20, 10, 5],
       initialSnapshot: true,
       date: new Date().toDateString(),
       pieData: {
         datasets: [
           {
-            label: "stuff",
-            data: [33, 33, 33],
-            backgroundColor: ["#4caf50", "#fb8c00", "#ff5252"]
+            label: "Voting Metrics",
+            data: [0, 0, 0],
+            backgroundColor: ["#fb8c00", "#4caf50", "#ff5252"]
           }
         ],
 
