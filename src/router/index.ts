@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
 import VoteController from '../views/VoteController.vue'
+import Data from '../views/Data.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,11 @@ Vue.use(VueRouter)
     path: '/controller',
     name: 'Controller',
     component: VoteController
+  },
+  {
+    path: '/data',
+    name: 'Data',
+    component: Data
   }
 ]
 
