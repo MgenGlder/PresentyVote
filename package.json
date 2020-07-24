@@ -12,6 +12,7 @@
   "dependencies": {
     "@firebase/firestore": "^1.15.0",
     "@material-ui/icons": "^4.9.1",
+    "@types/chart.js": "^2.9.23",
     "chart.js": "^2.9.3",
     "core-js": "^3.6.5",
     "fingerprintjs2": "^2.1.0",

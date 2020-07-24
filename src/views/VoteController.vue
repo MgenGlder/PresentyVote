@@ -182,12 +182,10 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      console.log("topics", this.topics);
       if (
         Object.prototype.hasOwnProperty.call(this.topics, "length") &&
         this.topics.length == 0
       ) {
-        console.log("No topic");
         this.dialog = true;
       }
     }, 1000);
