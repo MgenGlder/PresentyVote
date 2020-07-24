@@ -1,5 +1,11 @@
 {
   "hosting": {
+    "headers": [{
+      "source": "**/*",
+      "headers": [
+        {"key": "X-Frame-Options", "value": "SAMEORIGIN"}
+      ]
+    }],
     "public": "dist",
     "ignore": [
       "firebase.json",
