@@ -281,6 +281,11 @@ export default {
         values.push(nonce)
         const murmur = Fingerprint.x64hash128(values.join(''), 31)
         that.fingerprint = murmur;
+        try {
+          firestore.collection(that.date).doc('setup').collection('participants').doc(that.fingerprint).set({id: that.fingerprint})
+        } catch (e){
+          console.log('Could not register as participant', e)
+        }
       })
     },
     vote(type) {

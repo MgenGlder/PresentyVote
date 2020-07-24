@@ -42,6 +42,8 @@ export default {
         .doc(newVal.name)
         .collection("votes")
         .onSnapshot(votes => {
+            if(newVal.name == 'pause')
+                return;
           let voteObjects = votes.docs;
           this.pieData.datasets[0].data[0] = 0;
             this.pieData.datasets[0].data[1] = 0;
