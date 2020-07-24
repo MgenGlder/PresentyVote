@@ -74,7 +74,8 @@ export default {
           .collection(this.date)
           .doc("current-ballot")
           .set({
-            name: this.votingQuestions[this.currentQuestionIndex].title
+            name: this.votingQuestions[this.currentQuestionIndex].title,
+            description: this.votingQuestions[this.currentQuestionIndex].description
           });
       }
     },
@@ -102,7 +103,8 @@ export default {
         .collection(this.date)
         .doc("current-ballot")
         .set({
-          name: this.votingQuestions[this.currentQuestionIndex].title
+          name: this.votingQuestions[this.currentQuestionIndex].title,
+          description: this.votingQuestions[this.currentQuestionIndex].description
         });
     },
     isLocalHost() {
@@ -124,7 +126,8 @@ export default {
         .collection(this.date)
         .doc("current-ballot")
         .set({
-          name: this.votingQuestions[this.currentQuestionIndex].title
+          name: this.votingQuestions[this.currentQuestionIndex].title,
+          description: this.votingQuestions[this.currentQuestionIndex].description
         })
         .then(() => {
           this.isPaused = false;
@@ -135,7 +138,8 @@ export default {
         .collection(this.date)
         .doc("current-ballot")
         .set({
-          name: this.votingQuestions[this.currentQuestionIndex].title
+          name: this.votingQuestions[this.currentQuestionIndex].title,
+          description: this.votingQuestions[this.currentQuestionIndex].description
         });
     },
     instantiateVoting() {
@@ -158,19 +162,19 @@ export default {
       dialog: false,
       currentQuestionIndex: 0,
       votingQuestions: [
-        { title: "Vision" },
-        { title: "Mission" },
-        { title: "Autonomy" },
-        { title: "Risk" },
-        { title: "Being Remote" },
-        { title: "Users" },
-        { title: "Stakeholders" },
-        { title: "Codebase" },
-        { title: "Shipping" },
-        { title: "Space and Equipment" },
-        { title: "Continuous Improvement" },
-        { title: "Personal Development" },
-        { title: "Fun!" }
+        { title: "Vision", description: "How strongly do I understand and believe in the vision of the business and product?" },
+        { title: "Mission", description: "How strongly do I understand and believe in the mission of the team?"},
+        { title: "Autonomy", description:  "How effectively can I work remotely?" },
+        { title: "Risk", description: "How strongly do I feel you are empowered to make your own decisions as a team?" },
+        { title: "Being Remote", description: "How strongly do I feel that I can take risks?" },
+        { title: "Users", description: "How strongly do I believe that we are responsive to the needs of our users?" },
+        { title: "Stakeholders", description: "How strongly do I believe our stakeholders are highly enabled?" },
+        { title: "Codebase", description: "How strongly do I believe our codebase is healthy?" },
+        { title: "Shipping", description: "How strongly do I believe our code ships quickly and easily?"},
+        { title: "Space and Equipment", description: "How strongly do I believe that I have the resources, space, and equipment I need to be successful?" },
+        { title: "Continuous Improvement", description: "How strongly do I believe we continue to improve our process and practices?" },
+        { title: "Personal Development", description: "How strongly do I believe my woek is helping me to improve as a professional?" },
+        { title: "Fun!", description: "How strongly do I feel I'm having fun at work?" }
       ]
     };
   },
