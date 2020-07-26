@@ -89,6 +89,7 @@ export default {
     },
     transitionVoting() {
       this.isTransition = true;
+      this.isPaused = false;
       firestore
         .collection(this.date)
         .doc("current-ballot")
@@ -164,9 +165,9 @@ export default {
       votingQuestions: [
         { title: "Vision", description: "How strongly do I understand and believe in the vision of the business and product?" },
         { title: "Mission", description: "How strongly do I understand and believe in the mission of the team?"},
-        { title: "Autonomy", description:  "How effectively can I work remotely?" },
-        { title: "Risk", description: "How strongly do I feel you are empowered to make your own decisions as a team?" },
-        { title: "Being Remote", description: "How strongly do I feel that I can take risks?" },
+        { title: "Autonomy", description:  "How strongly do I feel we're empowered to make our own decisions as a team?" },
+        { title: "Risk", description: "How strongly do I feel that I can take risks?"  },
+        { title: "Being Remote", description: "How effectively can I work remotely?" },
         { title: "Users", description: "How strongly do I believe that we are responsive to the needs of our users?" },
         { title: "Stakeholders", description: "How strongly do I believe our stakeholders are highly enabled?" },
         { title: "Codebase", description: "How strongly do I believe our codebase is healthy?" },
