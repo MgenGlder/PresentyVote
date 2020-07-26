@@ -35,6 +35,7 @@ new Vue({
   vuetify,
   // @ts-ignore
   firestore () {
+    // TODO: Remove this block and verify app still works
     return {
       ballots: {
         objects: true,

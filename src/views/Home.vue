@@ -141,7 +141,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import { firestore, firebase } from '../main'
 import Fingerprint from 'fingerprintjs2'
 
