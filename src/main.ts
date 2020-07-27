@@ -19,7 +19,6 @@ Vue.use(VueFirestore)
 
 Vue.use(Vuetify)
 
-let displayedMessage = false;
 let vuetify = new Vuetify({})
 
 // @ts-ignore
