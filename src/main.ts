@@ -9,10 +9,6 @@ import store from './store'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
-// TODO: Remove this firebase require?? The script link in the index.html should handle making
-// firebase a global instance
-require('firebase/firestore');
-
 Vue.config.productionTip = false
 
 Vue.use(VueFirestore)
@@ -31,21 +27,7 @@ new Vue({
   router,
   store,
   render: h => h(App),
-  vuetify,
-  // @ts-ignore
-  firestore () {
-    // TODO: Remove this block and verify app still works
-    return {
-      ballots: {
-        objects: true,
-        resolve: (data: any) => {
-        },
-        reject: (err: any) => {
-        },
-        ref: firestore.collection('Wed Jun 10 2020')
-      }
-    }
-  }
+  vuetify
 }).$mount('#app')
 
 export { firestore, firebase }
