@@ -1,11 +1,16 @@
 {
   "hosting": {
-    "headers": [{
-      "source": "**/*",
-      "headers": [
-        {"key": "X-Frame-Options", "value": "SAMEORIGIN"}
-      ]
-    }],
+    "headers": [
+      {
+        "source": "**/*",
+        "headers": [
+          {
+            "key": "X-Frame-Options",
+            "value": "SAMEORIGIN"
+          }
+        ]
+      }
+    ],
     "public": "dist",
     "ignore": [
       "firebase.json",
@@ -22,5 +27,9 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   }
 }
