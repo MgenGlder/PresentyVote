@@ -55,5 +55,21 @@ npm run test:e2e
 npm run lint
 ```
 
+### In order to run the emulator (before testing)
+```
+firebase emulators:start --only firestore
+```
+The emulator uses firestore.rules file to fill out the rules
+Also uses firestore.indexes.json for data (I think)
+Also, has a slick ui interface
+
+### In order to initialize the firebase before the emulator is run
+```
+firebase init
+```
+### In order to update firebase-tools
+```
+sudo npm i -g firebase-tools
+```
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
