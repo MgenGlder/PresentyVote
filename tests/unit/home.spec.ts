@@ -5,6 +5,7 @@ import firebase from '@firebase/testing'
 import { IDBFactory, IDBKeyRange} from 'shelving-mock-indexeddb'
 
 // TODO: Create a declaration file for this dependency, so typescript won't complain anymore
+// Seems that Mocha is just not the move.. we want to move towards jest for automatic JSDom inclusion
 // global.window.firebase = {}
 // @ts-ignore
 window.indexedDB = new IDBFactory()
