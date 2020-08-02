@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { firestore, firebase } from "../main";
+import { firestore } from "../main";
 
 export default {
   name: "VoteController",
@@ -133,7 +133,7 @@ export default {
           this.isPaused = false;
         });
     },
-    enableVotingOption(votingOption) {
+    enableVotingOption() {
       firestore
         .collection(this.date)
         .doc("current-ballot")

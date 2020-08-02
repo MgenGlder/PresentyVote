@@ -232,7 +232,7 @@ export default {
           }, 0);
         });
 
-        const subscription = firestore.collection(this.date)
+        firestore.collection(this.date)
               .doc('setup')
               .collection('participants')
               .onSnapshot((snapshot) => {

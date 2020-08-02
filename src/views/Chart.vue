@@ -1,7 +1,6 @@
 <script>
-import { firestore, firebase } from "../main";
 import { Pie, mixins } from 'vue-chartjs';
-let { reactiveProp } = mixins
+const { reactiveProp } = mixins
 export default {
   extends: Pie,
   props: ['options'],

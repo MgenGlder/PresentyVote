@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { firestore, firebase } from "../main";
+import { firestore } from "../main";
 import PieChart from "./Chart";
 
 export default {
@@ -43,13 +43,13 @@ export default {
         .onSnapshot(votes => {
             if(newVal.name == 'pause')
                 return;
-          let voteObjects = votes.docs;
+          const voteObjects = votes.docs;
           this.pieData.datasets[0].data[0] = 0;
             this.pieData.datasets[0].data[1] = 0;
             this.pieData.datasets[0].data[2] = 0;
-            let rawCounts = { normal: 0, strong: 0, weak: 0}
+            const rawCounts = { normal: 0, strong: 0, weak: 0}
           voteObjects.map(currentVote => {
-            let rawVote = currentVote.data();
+            const rawVote = currentVote.data();
             switch (rawVote.type) {
                 case "normal":
                     rawCounts.normal += 1;
@@ -63,10 +63,10 @@ export default {
             }
             
           });
-          let totalCounts = rawCounts.normal + rawCounts.weak + rawCounts.strong;
-          let strongPercentage = rawCounts.strong / totalCounts
-          let normalPercentage = rawCounts.normal / totalCounts
-          let weakPercentage = rawCounts.weak / totalCounts
+          const totalCounts = rawCounts.normal + rawCounts.weak + rawCounts.strong;
+          const strongPercentage = rawCounts.strong / totalCounts
+          const normalPercentage = rawCounts.normal / totalCounts
+          const weakPercentage = rawCounts.weak / totalCounts
           this.pieData.datasets[0].data[0] = Math.round(normalPercentage * 100)
           this.pieData.datasets[0].data[1] = Math.round(strongPercentage * 100)
           this.pieData.datasets[0].data[2] = Math.round(weakPercentage * 100)
