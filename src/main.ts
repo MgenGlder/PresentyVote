@@ -18,9 +18,9 @@ Vue.use(Vuetify)
 const vuetify = new Vuetify({})
 
 // @ts-ignore
-const firestore = top.window.firebase.firestore();
+const firestore = global.window.firebase.firestore();
 // @ts-ignore
-const firebase = top.window.firebase;
+const firebase = global.window.firebase;
 console.log("What the hell. Don't look in here you freak. Mind your business.")
 
 new Vue({
