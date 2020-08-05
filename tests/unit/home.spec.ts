@@ -1,17 +1,12 @@
+import '../setup.mock.js'
 import { expect } from 'chai'
 import { shallowMount } from '@vue/test-utils'
 import Home from '@/views/Home.vue'
-import firebase from '@firebase/testing'
+import {initializeTestApp} from '@firebase/testing'
 
 // TODO: Create a declaration file for this dependency, so typescript won't complain anymore
 // Seems that Mocha is just not the move.. we want to move towards jest for automatic JSDom inclusion
 
-// @ts-ignore
-global.window.firebase = {
-  firestore(){}
-}
-
-console.log(firebase)
 
 test('HelloWorld.vue', async () => {
   
@@ -19,10 +14,19 @@ test('HelloWorld.vue', async () => {
   
   // await firebase.loadFirestoreRules({projectId: 'testId', rules: ''})
   // console.log(firebase)
-  firebase.initializeTestApp({
-    projectId: "my-test-project",
-    auth: { uid: "alice", email: "alice@example.com" }
-  });
+  // const testFirebase = initializeTestApp({
+  //   projectId: "my-test-project",
+  //   auth: { uid: "alice", email: "alice@example.com" }
+  // });
+
+  let wrapper = shallowMount(Home, {})
+
+  // // @ts-ignore
+  // window.firebase = testFirebase
+
+  
+
+
   
   // const wrapper = shallowMount(Home, {
   // });

@@ -192,6 +192,7 @@ export default {
     }
   },
   mounted () {
+    console.log('made it into mounted!')
     const sse = new EventSource('https://presenty-vote-api.herokuapp.com/events')
     sse.onmessage = function(event) {
       console.log("New message", event.data);
