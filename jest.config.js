@@ -10,9 +10,15 @@ module.exports = {
         'json',
         'vue'
     ],
+    transformIgnorePatterns: [
+        "/node_modules/vuetify/"
+    ],
     transform: {
         '.*\\.(vue)$': 'vue-jest'
     },
     testURL: 'http://localhost/'
   }
   
+  //https://github.com/nrwl/nx/issues/812
+
+  // To get to work, remove the transformIgnorePatterns property
