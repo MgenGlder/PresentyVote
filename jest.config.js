@@ -11,7 +11,7 @@ module.exports = {
         'vue'
     ],
     transformIgnorePatterns: [
-        "/node_modules/vuetify/"
+        "/node_modules/(?!vuetify)"
     ],
     transform: {
         '.*\\.(vue)$': 'vue-jest'
