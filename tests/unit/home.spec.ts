@@ -1,4 +1,4 @@
-import '../setup.mock.js'
+import {firebase} from '../setup.mock'
 import { expect } from 'chai'
 import { shallowMount, Wrapper } from '@vue/test-utils'
 import Home from '@/views/Home.vue'
@@ -24,12 +24,17 @@ describe('HelloWorld', () => {
     expect(subject.get('[name=start-loading]').exists()).to.equal(true)
   });
   
-  test('Should display waiting test when the app has not been initialized yet', () => {
+  test('Should display waiting text when the app has not been initialized yet', () => {
     expect(subject.get('[name=start-loading] .start-loading').text()).to.equal('Please wait.. Loading. Voting will begin shortly.')
   });
 
   test('Should show progress linear bar when the app has not been initialized yet', () => {
     expect(subject.findComponent(VProgressLinear).exists()).to.equal(true)
+  });
+
+  test('Should not display waiting text when the app has topics chosen',() => {
+    console.log(firebase);
+    expect(subject.get('[name=start-loading]').exists()).to.equal(false)
   });
 })
 

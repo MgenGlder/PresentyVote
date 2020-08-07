@@ -1,5 +1,6 @@
 
 import {initializeTestApp} from '@firebase/testing' 
+// @ts-ignore
 import EventSource from 'eventsourcemock'
 
 const testFirebase = initializeTestApp({
@@ -14,6 +15,8 @@ Object.defineProperty(window, 'firebase', {
 Object.defineProperty(window, 'EventSource', {
   value: EventSource
 })
+
+export {testFirebase as firebase, EventSource as eventSource}
 // Doesn't seem to work, setting the innerHTML explicitely
 // console.log('setting the app on the body')
 // Object.defineProperty(document.body, 'innerHTML', {
