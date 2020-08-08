@@ -1,4 +1,4 @@
-import {firebase} from '../setup.mock'
+import {firebase, clearFirestoreData} from '../setup.mock'
 import { expect } from 'chai'
 import { shallowMount, Wrapper } from '@vue/test-utils'
 import Home from '@/views/Home.vue'
@@ -17,7 +17,12 @@ import { VProgressLinear } from 'vuetify/lib'
 
 describe('Home', () => {
   let subject: Wrapper<Home>;
-  beforeEach(() => {
+  let testFirebase: firebase.firestore.Firestore;
+  beforeEach(async () => {
+    testFirebase = firebase.firestore()
+    // TODO: Figure out why clearing data presents problems.
+    // I think it's because of the vue-firestore issue. We need to make a pull request to fix that stuff.
+    await clearFirestoreData({projectId: 'test'})
     subject = shallowMount(Home, {});
   })
   test('Should have "start-loading" transition', () => {
@@ -34,7 +39,7 @@ describe('Home', () => {
 
   test('Should not display waiting text when the app has topics chosen', async () => {
     // TODO: Fix Jest async waiting issues w/ test after all tests have finished.
-    await firebase.firestore().collection(new Date().toDateString()).doc('current-ballot').set({name: 'test-ballot'});
+    await testFirebase.collection(new Date().toDateString()).doc('current-ballot').set({name: 'test-ballot'});
     expect(subject.find('[name=start-loading] .start-loading').exists()).to.equal(false)
   });
 })
