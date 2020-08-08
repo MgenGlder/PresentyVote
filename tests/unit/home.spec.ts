@@ -15,7 +15,7 @@ import { VProgressLinear } from 'vuetify/lib'
   //   auth: { uid: "alice", email: "alice@example.com" }
   // })
 
-describe('HelloWorld', () => {
+describe('Home', () => {
   let subject: Wrapper<Home>;
   beforeEach(() => {
     subject = shallowMount(Home, {});
@@ -32,9 +32,10 @@ describe('HelloWorld', () => {
     expect(subject.findComponent(VProgressLinear).exists()).to.equal(true)
   });
 
-  test('Should not display waiting text when the app has topics chosen',() => {
-    console.log(firebase);
-    expect(subject.get('[name=start-loading]').exists()).to.equal(false)
+  test('Should not display waiting text when the app has topics chosen', async () => {
+    // TODO: Fix Jest async waiting issues w/ test after all tests have finished.
+    await firebase.firestore().collection(new Date().toDateString()).doc('current-ballot').set({name: 'test-ballot'});
+    expect(subject.find('[name=start-loading] .start-loading').exists()).to.equal(false)
   });
 })
 
