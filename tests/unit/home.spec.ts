@@ -9,7 +9,6 @@ import { VProgressLinear } from 'vuetify/lib'
 // Seems that Mocha is just not the move.. we want to move towards jest for automatic JSDom inclusion
 
 // await firebase.loadFirestoreRules({projectId: 'testId', rules: ''})
-  // console.log(firebase)
   // const testFirebase = initializeTestApp({
   //   projectId: "my-test-project",
   //   auth: { uid: "alice", email: "alice@example.com" }
