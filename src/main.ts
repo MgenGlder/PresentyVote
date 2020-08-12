@@ -1,7 +1,6 @@
 import Vue from 'vue'
 // @ts-ignore
 import VueFirestore from 'vue-firestore'
-// import Firebase from 'firebase'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
