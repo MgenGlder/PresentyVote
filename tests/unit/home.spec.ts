@@ -15,7 +15,7 @@ import { VProgressLinear } from 'vuetify/lib'
   // })
 
 describe('Home', () => {
-  let subject: Wrapper<Home>;
+  let subject: Wrapper<any>;
   let testFirebase: firebase.firestore.Firestore;
   beforeEach(async () => {
     testFirebase = firebase.firestore()
