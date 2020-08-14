@@ -10,7 +10,7 @@ import 'vuetify/dist/vuetify.min.css'
 
 Vue.config.productionTip = false
 
-Vue.use(VueFirestore)
+Vue.use(VueFirestore, { exposeErrors: false })
 
 Vue.use(Vuetify)
 
