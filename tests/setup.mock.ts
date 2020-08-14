@@ -15,7 +15,9 @@ Object.defineProperty(window, 'firebase', {
 Object.defineProperty(window, 'EventSource', {
   value: EventSource
 })
-
+Object.defineProperty(window.console, 'warning', {
+  value: () => {}
+})
 export {testFirebase as firebase, EventSource as eventSource, clearFirestoreData}
 // Doesn't seem to work, setting the innerHTML explicitely
 // console.log('setting the app on the body')

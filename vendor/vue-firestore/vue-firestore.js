@@ -130,12 +130,16 @@ function documents({ vm, key, source, resolve, reject }) {
         vm[key] = container;
       } else {
         delete vm.$firestore[key];
-        reject(console.warning(`The document (${key}) doesn't exist or permission was denied`));
+        // used to be rejects
+        if(defaultOptions.exposeErrors) resolve(console.warning(`The document (${key}) doesn't exist or permission was denied`));
+        // used to be rejects
+        else resolve()
       }
       resolve(vm[key]);
     },
     error => {
-      reject(error);
+      // used to be rejects
+      resolve(error);
     }
   );
 }
@@ -183,10 +187,13 @@ function bind(vm, key, source, params = {}) {
  * Initialize.
  */
 const created = function created() {
+  // Grabs the options that were created in the firestore methods object
   let bindings = this.$options.firestore;
   if (typeof bindings === 'function') bindings = bindings.call(this);
   if (!bindings) return;
+  // Make sure that the $firestore object exists
   ensureRefs(this);
+  // For each item in the firestore object, bind it to a variable
   for (const key in bindings) {
     bind(this, key, bindings[key]);
   }
@@ -223,7 +230,9 @@ const install = function install(_Vue, options) {
   Vue = _Vue;
   if (options && options.key) defaultOptions.keyName = options.key;
   if (options && options.enumerable !== undefined) defaultOptions.enumerable = options.enumerable;
+  if (options && options.exposeErrors !== undefined) defaultOptions.exposeErrors = options.exposeErrors;
   Vue.mixin(Mixin);
+  // The lines that create the firestore: {} options in the home component
   const mergeStrats = Vue.config.optionMergeStrategies;
   mergeStrats.fireStore = mergeStrats.methods;
 

@@ -1,5 +1,6 @@
 // Plugin options
 export default {
   keyName: '.key',
-  enumerable: true
+  enumerable: true,
+  exposeErrors: true
 };
