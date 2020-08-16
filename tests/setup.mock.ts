@@ -25,3 +25,4 @@ export {testFirebase as firebase, EventSource as eventSource, clearFirestoreData
 //   writable: true,
 //   value: "<div id='app'></div>"
 // })
+// No dom in node
