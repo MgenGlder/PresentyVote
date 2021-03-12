@@ -173,7 +173,8 @@ export default {
         { title: "Shipping", description: "How strongly do I believe our code ships quickly and easily?"},
         { title: "Space and Equipment", description: "How strongly do I believe that I have the resources, space, and equipment I need to be successful?" },
         { title: "Continuous Improvement", description: "How strongly do I believe we continue to improve our process and practices?" },
-        { title: "Personal Development", description: "How strongly do I believe my woek is helping me to improve as a professional?" },
+        { title: "Personal Development", description: "How strongly do I believe my work is helping me to improve as a professional?" },
+        { title: "Microservices", description: "How strongly do I believe that I understand our microservices and our microservice architecture?"},
         { title: "Fun!", description: "How strongly do I feel I'm having fun at work?" }
       ]
     };
