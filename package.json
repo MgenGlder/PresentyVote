@@ -26,7 +26,7 @@
     "null-loader": "^4.0.0",
     "register-service-worker": "^1.7.1",
     "shelving-mock-indexeddb": "^1.1.0",
-    "vue": "^2.6.11",
+    "vue": "^3.0.0",
     "vue-chartjs": "^3.5.0",
     "vue-class-component": "^7.2.3",
     "vue-firestore": "^0.3.30",
