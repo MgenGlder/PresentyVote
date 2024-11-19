@@ -21,7 +21,7 @@
     "core-js": "^3.6.5",
     "eventsourcemock": "^2.0.0",
     "fingerprintjs2": "^2.1.0",
-    "firebase": "^7.17.1",
+    "firebase": "^10.9.0",
     "material-design-icons": "^3.0.1",
     "null-loader": "^4.0.0",
     "register-service-worker": "^1.7.1",
